@@ -26,3 +26,12 @@ app.post("/claude", async (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log("listening on", port));
+
+// CORS for Figma plugin (origin is "null")
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "content-type, x-proxy-token");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  if (req.method === "OPTIONS") return res.sendStatus(204);
+  next();
+});
